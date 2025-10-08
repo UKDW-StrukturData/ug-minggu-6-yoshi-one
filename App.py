@@ -48,6 +48,8 @@ if (choice in ("Insert","Edit")):
                     else: st.error("insert fail")
                                 
 # TODO: buatkan sistem filter data tabel berdasarkan kolom yang memiliki data angka
+filter = ""
+targetFilterColumn = ""
 option = ["None",">","<","=","<=",">="]
 filterSelectBox = st.selectbox("Opsi Filter: ",option)
 
@@ -62,3 +64,19 @@ if (filter != ""):
         st.table(em.getDataFrame()[em.getDataFrame()[targetFilterColumn] > int(filter)]) # cara filter
     # TODO: lanjutkan code di atas
     # note: cara filter ada di modul
+if (filter != ""):
+    df = em.getDataFrame()
+    try:
+        filter_value = int(filter)
+        if filterSelectBox == ">":
+            st.table(df[df[targetFilterColumn] > filter_value])
+        elif filterSelectBox == "<":
+            st.table(df[df[targetFilterColumn] < filter_value])
+        elif filterSelectBox == "=":
+            st.table(df[df[targetFilterColumn] == filter_value])
+        elif filterSelectBox == "<=":
+            st.table(df[df[targetFilterColumn] <= filter_value])
+        elif filterSelectBox == ">=":
+            st.table(df[df[targetFilterColumn] >= filter_value])
+    except ValueError:
+        st.error("Filter harus berupa angka")
